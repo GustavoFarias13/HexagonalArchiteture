@@ -1,15 +1,25 @@
 package com.gustavofarias.hexagonalarchiteture.domain;
 
+import jakarta.persistence.*;
 import java.util.UUID;
 
+@Entity
 public class Livro {
+
+    @Id
     private UUID id;
     private String titulo;
-    private Autor autor;
     private int anoPublicacao;
 
-    public Livro(UUID id, String titulo, Autor autor, int anoPublicacao) {
-        this.id = id;
+    @ManyToOne(cascade = CascadeType.ALL)
+    private Autor autor;
+
+    public Livro() {
+        this.id = UUID.randomUUID();
+    }
+
+    public Livro(String titulo, Autor autor, int anoPublicacao) {
+        this();
         this.titulo = titulo;
         this.autor = autor;
         this.anoPublicacao = anoPublicacao;
@@ -19,13 +29,4 @@ public class Livro {
     public String getTitulo() { return titulo; }
     public Autor getAutor() { return autor; }
     public int getAnoPublicacao() { return anoPublicacao; }
-
-    @Override
-    public String toString() {
-        return "Livro{id=" + id +
-                ", titulo='" + titulo + '\'' +
-                ", autor=" + autor +
-                ", anoPublicacao=" + anoPublicacao +
-                '}';
-    }
 }
